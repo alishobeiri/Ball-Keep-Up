@@ -22,7 +22,7 @@ PIXI.loader
 var soccerball;
 var whitebox;
 var velocity = 0;
-var gravity = 0.005;
+var gravity = 0.05;
 var speedY = -5*(Math.random()) - 5;
 var speedX = (Math.random() * 10) - 5;
 var score = 0;
