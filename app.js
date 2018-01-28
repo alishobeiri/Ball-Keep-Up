@@ -64,7 +64,7 @@ function setup() {
     PIXI.loader.resources["lowersky"].texture
   );
 
-  scoreText.x = renderer.width - scoreText.width - 10;
+  scoreText.x = renderer.width - scoreText.width - 25;
   scoreText.y = renderer.height - scoreText.height - 10;
 
   soccerball.interactive = true;
