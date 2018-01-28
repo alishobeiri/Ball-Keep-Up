@@ -3,6 +3,7 @@ PIXI.INTERACTION_FREQUENCY = 60;
 
 var renderer = PIXI.autoDetectRenderer(512, 512, {
   resolution: 1,
+  antialias: true,
   backgroundColor : 0xff0000
 });
 
@@ -21,28 +22,28 @@ PIXI.loader
 
 var soccerball;
 var whitebox;
-var velocity = 0;
 var gravity = 0.20;
 var speedY = -5*(Math.random()) - 5;
 var speedX = (Math.random() * 10) - 5;
 var score = 0;
+var gameOver = false;
+var exit = false;
+
 var scoreText = new PIXI.Text("Score: " + score);
 scoreText.style = new PIXI.TextStyle({
     fontFamily: "\"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif",
     fontSize: 20,
     fontWeight: "bold",
     fill: "white",
-    strokeThickness: 2
+    strokeThickness: 4
 });
-var gameBegin = false;
-var gameOver = false;
-var exit = false;
+
+// To be used for end game text
 var style = new PIXI.TextStyle({
   fontFamily: 'Helvetica',
   fontSize: 130,
   fontWeight: 'bold'
 });
-
 
 function setup() {
   stage.interactive = true;
@@ -63,38 +64,47 @@ function setup() {
     PIXI.loader.resources["lowersky"].texture
   );
 
-  scoreText.x = renderer.width - scoreText.width - 20;
-  // Soccer Ball initialization
+  scoreText.x = renderer.width - scoreText.width - 10;
+  scoreText.y = renderer.height - scoreText.height - 10;
+
   soccerball.interactive = true;
   soccerball.scale.set(0.4, 0.4);
   soccerball.anchor.set(0.5, 1);
   soccerball.x = renderer.width/2;
   soccerball.y = renderer.width/2;
 
-
-  // Soccer Ball click interactions
-  soccerball.click = function() {
-    speedY = -8;
+  soccerball.click = function(event) {
     score += 1;
+
+    var clickData = event.data.getLocalPosition(stage);
+    var clickDistanceX = soccerball.x - clickData.x;
+    speedY = (clickData.y/soccerball.y)*(-12);
+    if (clickDistanceX > 0) {
+      speedX = Math.log(clickDistanceX);
+    } else if(clickDistanceX < 0) {
+      speedX = -Math.log(Math.abs(clickDistanceX));
+    } else {
+      speedX = 0;
+    }
+
     scoreText.text = "Score: " + score;
   }
-
 
   stage.addChild(uppersky);
   stage.addChild(scoreText);
   stage.addChild(soccerball);
+
   animationLoop();
 }
-
 
 function animationLoop() {
   if (!exit) {
     requestAnimationFrame(animationLoop);
   }
 
-  soccerball.y += this.speedY;
+  soccerball.y += speedY;
   soccerball.x += speedX;
-  this.speedY += this.gravity;
+  speedY += gravity;
 
   if(soccerball.y >= renderer.height + soccerball.height/2) {
     this.resetSprite();
@@ -123,11 +133,11 @@ function animationLoop() {
 
 
 function resetSprite() {
-
   if (!gameOver) {
     soccerball.scale.set(0.15, 0.15);
     soccerball.y = -soccerball.height/2;
     soccerball.interactive = false;
+    wrapper.interactive = true;
     var endText = new PIXI.Text('Please\nHire \nMe 😁', style);
     endText.anchor.set(0.5, 0.5);
     endText.x = renderer.width/2 - 20;
@@ -137,8 +147,7 @@ function resetSprite() {
     whitebox.scale.set(0.05, 0.05);
     whitebox.x = endText.x - 95;
     whitebox.y = endText.y - 40;
-    whitebox.visible=false;
-
+    whitebox.visible = false;
 
     stage.removeChild(scoreText);
     stage.removeChild(uppersky);
@@ -147,6 +156,7 @@ function resetSprite() {
     text.addChild(whitebox);
     wrapper.addChild(text);
     wrapper.addChild(stage);
+
     gameOver = true;
   } else {
     xDiff = Math.abs(whitebox.x - soccerball.x);
@@ -162,11 +172,3 @@ function resetSprite() {
     gravity = 0;
   }
 }
-
-
-
-
-
-
-
-/// Blank comment to stop atom glitch
