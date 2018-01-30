@@ -27,6 +27,7 @@ var speedY = -5*(Math.random()) - 5;
 var speedX = (Math.random() * 10) - 5;
 var score = 0;
 var gameOver = false;
+var angularVelocity = 0;
 var exit = false;
 
 var scoreText = new PIXI.Text("Score: " + score);
@@ -72,7 +73,7 @@ function setup() {
   // Set soccerball attributes
   soccerball.interactive = true;
   soccerball.scale.set(0.4, 0.4);
-  soccerball.anchor.set(0.5, 1);
+  soccerball.anchor.set(0.5, 0.5);
   soccerball.x = renderer.width/2;
   soccerball.y = renderer.width/2;
 
@@ -81,18 +82,33 @@ function setup() {
 
     var clickData = event.data.getLocalPosition(stage);
     var clickDistanceX = soccerball.x - clickData.x;
+    var yRatio = clickData.y/(soccerball.y+soccerball.height/2);
 
     // If click is closer to the bottom of the ball, add more speed
-    speedY = (clickData.y/soccerball.y)*(-12);
+
+    speedY = (yRatio)*(-12);
+
+    console.log("Y ratio: " + yRatio);
+
+    console.log("Click data: ");
+    console.log("Y: " + clickData.y);
+    console.log("X: " + clickData.x);
+    console.log("Soccerball: ");
+    console.log("Y: " + soccerball.y);
+    console.log("X: " + soccerball.x);
 
     // Adjust horizontal ball speed based on which side of ball is clicked
     if (clickDistanceX > 0) {
       speedX = Math.log(clickDistanceX);
+      angularVelocity = Math.log(Math.abs(clickDistanceX))/100;
     } else if(clickDistanceX < 0) {
       speedX = -Math.log(Math.abs(clickDistanceX));
+      angularVelocity = -Math.log(Math.abs(clickDistanceX))/100;
     } else {
       speedX = 0;
     }
+
+    console.log("angularVelocity: " + angularVelocity);
 
     // Update the scoreboard value
     scoreText.text = "Score: " + score;
@@ -115,9 +131,10 @@ function animationLoop() {
   soccerball.y += speedY;
   soccerball.x += speedX;
   speedY += gravity;
+  soccerball.rotation += angularVelocity;
 
   // If the ball falls outside the screen border begin end screen
-  if(soccerball.y >= renderer.height + soccerball.height/2) {
+  if(soccerball.y >= renderer.height) {
     this.resetSprite();
   }
 
@@ -130,7 +147,7 @@ function animationLoop() {
 
   // If the ball is on top of the i of Hire me stop it
   if(Math.abs(whitebox.x - soccerball.x) < 5 &&
-    Math.abs(whitebox.y - soccerball.y + 20) < 5 &&
+    Math.abs(whitebox.y - soccerball.y - 10) < 5 &&
     gravity == 0) {
       speedX = 0;
       speedY = 0;
@@ -181,7 +198,7 @@ function resetSprite() {
     // Calculate the speed to give to the ball to allow it to reach the i
     // of Hire Me
     xDiff = Math.abs(whitebox.x - soccerball.x);
-    yDiff = Math.abs(whitebox.y - soccerball.y + 20);
+    yDiff = Math.abs(whitebox.y - soccerball.y - 10);
     speedX = xDiff/50;
     speedY = -yDiff/50;
     if (whitebox.x < soccerball.x) {
@@ -189,7 +206,7 @@ function resetSprite() {
     } else if (whitebox.x > soccerball.x) {
       speedX *= 1;
     }
-
+    angularVelocity = 0;
     gravity = 0;
   }
 }
