@@ -77,7 +77,7 @@ function setup() {
   soccerball.x = renderer.width/2;
   soccerball.y = renderer.width/2;
 
-  soccerball.click = function(event) {
+  soccerball.click = soccerball.tap = function(event) {
     score += 1;
 
     var clickData = event.data.getLocalPosition(stage);
