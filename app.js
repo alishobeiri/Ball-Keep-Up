@@ -1,4 +1,4 @@
-PIXI.utils.sayHello();
+﻿PIXI.utils.sayHello();
 PIXI.INTERACTION_FREQUENCY = 60;
 
 var renderer = PIXI.autoDetectRenderer(512, 512, {
@@ -12,6 +12,8 @@ document.getElementById('display').appendChild(renderer.view);
 var stage = new PIXI.Container();
 var text = new PIXI.Container();
 var wrapper = new PIXI.Container();
+
+console.log("hello");
 
 PIXI.loader
   .add("soccerball", "images/soccerball.png")
