@@ -20,7 +20,7 @@ PIXI.loader
   .add("whitebox", "images/white.png")
   .add("uppersky", "images/uppersky.png")
   .add("lowersky", "images/lowersky.png")
-  .load(setup);
+  .load(startLoop);
 
 var soccerball;
 var whitebox;
@@ -47,6 +47,15 @@ var style = new PIXI.TextStyle({
   fontSize: 130,
   fontWeight: 'bold'
 });
+
+var start = true;
+
+function startLoop() {
+  // if(start != false) {
+  //   setup();
+  // }
+}
+
 
 function setup() {
   stage.interactive = true;

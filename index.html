@@ -4,11 +4,17 @@
   <meta charset='utf-8'>
   <title>PixiJS</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
+  <script type="text/javascript" src="pixi.min.js"></script>
 </head>
 <body>
-  <div id="display"/>
-  <script type="text/javascript" src="app.js"></script>
+  <div>
+    <div class="flex-container">
+      <button id="startGame" onclick="setup()">Start Game</button>
+      <button id="startGame" onclick="window.location.reload()">Play Again</button>
+    </div>
+    <div id="display"/>
+    <script type="text/javascript" src="app.js"></script>
+  </div>
 </body>
 <h2 style="border: 0; text-align: center;">Click on the ball to keep it in the air and get points!</h2>
 <p style="border: 0; text-align: center;">Refresh the page to play again!</p>
