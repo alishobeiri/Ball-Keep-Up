@@ -44,20 +44,27 @@ scoreText.style = new PIXI.TextStyle({
 // To be used for end game text
 var style = new PIXI.TextStyle({
   fontFamily: 'Helvetica',
-  fontSize: 130,
-  fontWeight: 'bold'
+  fontSize: 90,
+  fontWeight: 'bold',
+  align: 'center'
 });
 
-var start = true;
-
 function startLoop() {
-  // if(start != false) {
-  //   setup();
-  // }
+}
+
+function resetValues() {
+  this.gravity = 0.20;
+  this.speedY = -5*(Math.random()) - 5;
+  this.speedX = (Math.random() * 10) - 5;
+  this.score = 0;
+  this.gameOver = false;
+  this.angularVelocity = 0;
+  this.exit = false;
 }
 
 
 function setup() {
+  debugger;
   stage.interactive = true;
 
   // Load sprites into game
@@ -178,21 +185,21 @@ function animationLoop() {
 function resetSprite() {
   if (!gameOver) {
     // Reduce ball size, start it on top of screen and disable clicks
-    soccerball.scale.set(0.15, 0.15);
+    soccerball.scale.set(0.10, 0.10);
     soccerball.y = -soccerball.height/2;
     soccerball.interactive = false;
 
     // Define end text and set location
-    var endText = new PIXI.Text('Please\nHire \nMe 😁', style);
+    var endText = new PIXI.Text('Thank\nyou\nMicrosoft\n😊', style);
     endText.anchor.set(0.5, 0.5);
-    endText.x = renderer.width/2 - 20;
-    endText.y = renderer.height/2 - 25;
+    endText.x = renderer.width/2;
+    endText.y = renderer.height/2;
 
     // Set location and dimension for hidden box that ball stops on
     whitebox.anchor.set(0.5, 0.65);
-    whitebox.scale.set(0.05, 0.05);
-    whitebox.x = endText.x - 95;
-    whitebox.y = endText.y - 40;
+    whitebox.scale.set(0.045, 0.045);
+    whitebox.x = endText.x - 115;
+    whitebox.y = endText.y + 25;
     whitebox.visible = false;
 
     // Remove score and clouds
@@ -206,8 +213,6 @@ function resetSprite() {
 
     gameOver = true;
   } else {
-    // Calculate the speed to give to the ball to allow it to reach the i
-    // of Hire Me
     xDiff = Math.abs(whitebox.x - soccerball.x);
     yDiff = Math.abs(whitebox.y - soccerball.y - 10);
     speedX = xDiff/50;
