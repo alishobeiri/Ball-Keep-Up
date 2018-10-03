@@ -13,8 +13,6 @@ var stage = new PIXI.Container();
 var text = new PIXI.Container();
 var wrapper = new PIXI.Container();
 
-console.log("hello");
-
 PIXI.loader
   .add("soccerball", "images/soccerball.png")
   .add("whitebox", "images/white.png")
@@ -44,7 +42,7 @@ scoreText.style = new PIXI.TextStyle({
 // To be used for end game text
 var style = new PIXI.TextStyle({
   fontFamily: 'Helvetica',
-  fontSize: 90,
+  fontSize: 80,
   fontWeight: 'bold',
   align: 'center'
 });
@@ -190,16 +188,19 @@ function resetSprite() {
     soccerball.interactive = false;
 
     // Define end text and set location
-    var endText = new PIXI.Text('Thank\nyou\nMicrosoft\n😊', style);
+    var endText = new PIXI.Text("Your high\nscore was:\n", style);
+    var scoreEndText = new PIXI.Text(String(score), style)
     endText.anchor.set(0.5, 0.5);
     endText.x = renderer.width/2;
     endText.y = renderer.height/2;
-
+    scoreEndText.anchor.set(0.5, 0.5);
+    scoreEndText.x = renderer.width/2;
+    scoreEndText.y = renderer.height/2 + 90;
     // Set location and dimension for hidden box that ball stops on
     whitebox.anchor.set(0.5, 0.65);
-    whitebox.scale.set(0.045, 0.045);
-    whitebox.x = endText.x - 115;
-    whitebox.y = endText.y + 25;
+    whitebox.scale.set(0.04, 0.04);
+    whitebox.x = endText.x + 75;
+    whitebox.y = endText.y - 115;
     whitebox.visible = false;
 
     // Remove score and clouds
@@ -207,6 +208,7 @@ function resetSprite() {
     stage.removeChild(uppersky);
     text.addChild(lowersky);
     text.addChild(endText);
+    text.addChild(scoreEndText);
     text.addChild(whitebox);
     wrapper.addChild(text);
     wrapper.addChild(stage);

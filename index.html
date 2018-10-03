@@ -9,7 +9,7 @@
 <body>
   <div>
     <div class="flex-container">
-      <button id="startGame" onclick="setup()">Start Game</button>
+      <button id="startGame" onclick="this.disabled=true; setup()">Start Game</button>
       <button id="startGame" onclick="window.location.reload()">Play Again</button>
     </div>
     <div id="display"/>
