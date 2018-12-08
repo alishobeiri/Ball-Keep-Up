@@ -3,5 +3,5 @@ This is a ball keep up game implemented using the [PixiJS](http://www.pixijs.com
 
 Clicking on the ball in various locations imparts different momentum to the ball. When clicked on the very top, the ball receives the lowest vertical momentum. Clicking the ball off its central axis either to the left or the right imparts a angular momentum to the ball and allows it to spin. The ball is able to also bounce off the left and right walls on the game window.
 
-The game plays as shown below: 
+The game plays as shown below:  
 ![Gameplay](/images/gameplay.gif)
