@@ -6,5 +6,4 @@ Clicking on the ball in various locations imparts different momentum to the ball
 The game plays as shown below:
 <p align="center">
   <img src="/images/gameplay.gif">
-  ![Gameplay](/images/gameplay.gif)
 </p>
